@@ -1,22 +1,37 @@
 package src;
+
 import java.util.Random;
-import java.util.Scanner;
+
 public class GuessTheNumberGame {
 
-    private static Player player;
+    private static Random numberRandom = new Random();
+    private static int targetNumber;
+    private static Player currentPlayer;
 
     public static void main(String[] args) {
-        Random randomNumber = new Random();
-        int value = randomNumber.nextInt(100) + 1;
-        System.out.println("Random number between 1 and 100: " + value);
+        targetNumber = numberRandom.nextInt(100) + 1;
+        Player humanPlayer = new HumanPlayer("Michele");
+        Player computerPlayer = new ComputerPlayer("Computer");
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Digite um numero: ");
-        int number = scanner.nextInt();
+        Player currentPlayer = humanPlayer;
 
+        while (true) {
+            System.out.println("Round: " + currentPlayer.getName());
+
+            int guess = currentPlayer.makeGuess();
+            System.out.println(currentPlayer.getName() + ", enter your guess: " + guess);
+
+            if (guess == targetNumber) {
+                System.out.println("Correct! " + currentPlayer.getName() + " wins!");
+                break;
+            } else if (guess > targetNumber) {
+                System.out.println("Too high!");
+            } else {
+                System.out.println("Too low!");
+            }
+
+
+            currentPlayer = (currentPlayer instanceof HumanPlayer) ? computerPlayer : humanPlayer;
+        }
     }
-
-    //public static String checkGuess(Player player){
-
-   // }
 }
